@@ -4,6 +4,7 @@
   const getParameterProxyHandler = {
     apply: function (target, ctx, args) {
       const param = (args || [])[0]
+      const result = utils.cache.Reflect.apply(target, ctx, args)
       // UNMASKED_VENDOR_WEBGL
       if (param === 37445) {
         return vendor || 'Intel Inc.' // default in headless: Google Inc.
@@ -12,11 +13,11 @@
       if (param === 37446) {
         return renderer || 'Intel Iris OpenGL Engine' // default in headless: Google SwiftShader
       }
-      return utils.cache.Reflect.apply(target, ctx, args)
+      return result; 
     }
   }
 
-  // There's more than one WebGL rendering context
+   // There's more than one WebGL rendering context
   // https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext#Browser_compatibility
   // To find out the original values here: Object.getOwnPropertyDescriptors(WebGLRenderingContext.prototype.getParameter)
   const addProxy = (obj, propName) => {

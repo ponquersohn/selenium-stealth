@@ -16,7 +16,7 @@
   }
 
   utils.replaceWithProxy(
-    window.navigator.permissions.__proto__, // eslint-disable-line no-proto
+    Object.getPrototypeOf(navigator.permissions),
     'query',
     handler
   )
